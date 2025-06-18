@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+from google import genai
+from rich.console import Console
+from rich.markdown import Markdown
+
+# Load API key from environment variable
+api_key = os.getenv("GOOGLE_API_KEY")
+if not api_key:
+    raise ValueError("GOOGLE_API_KEY environment variable not set")
+
+client = genai.Client(api_key=api_key)
+
+args = sys.argv[1:]
+use_prev_output = False
+suggest_cmds = False
+
+if "-o" in args:
+    use_prev_output = True
+    args.remove("-o")
+
+if "-s" in args:
+    suggest_cmds = True
+    args.remove("-s")
+
+question = " ".join(args)
+
+previous_output = ""
+if use_prev_output:
+    previous_output = sys.stdin.read().strip()
+
+base = "You are an AI being accessed from a terminal, you will never receive anything other than text. Answer accordingly. You may be given more information than questions, but prioritise answering the question USING the information you're provided with."
+
+if previous_output:
+    prompt = f"{base}\nThis was the output of the previous command:\n{previous_output}\n\nReply in short form, but provide good detail: {question}"
+    if suggest_cmds:
+        prompt += "\nAlso, suggest one or two shell commands that might help me troubleshoot, fix this issue, or provide more context to the question I asked now. Seperate suggested commands using a newline so that I can tell them apart."
+else:
+    prompt = f"{base}\nReply in short form: {question}"
+
+response = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents=prompt
+)
+
+console = Console()
+console.print(Markdown(response.text))
