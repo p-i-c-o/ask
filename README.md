@@ -2,12 +2,19 @@
 simple gemini wrapper for the terminal
 
 ## Installation + Setup
+### Python Dependencies:
+- `google-genai`
+
+### Installation Script
 ```bash
 git clone https://github.com/p-i-c-o/ask
 cd ask
 sudo chmod +x ./ask
 sudo cp ask /usr/bin/ask
+pip install -q -U google-genai
 ```
+
+### API
 Get your Gemini API Key from [Google AI Studio](https://aistudio.google.com/apikey).
 
 Add the following to your .bashrc
