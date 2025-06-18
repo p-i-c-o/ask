@@ -2,14 +2,16 @@
 simple gemini wrapper for the terminal
 
 ## Installation + Setup
-```
+```bash
 git clone https://github.com/p-i-c-o/ask
 cd ask
 sudo chmod +x ./ask
 sudo cp ask /usr/bin/ask
 ```
 Get your Gemini API Key from [Google AI Studio](https://aistudio.google.com/apikey).
-```
+
+Add the following to your .bashrc
+```bash
 export GOOGLE_API_KEY="YOUR_KEY_HERE"
 ```
 
