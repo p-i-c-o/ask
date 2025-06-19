@@ -31,6 +31,4 @@ export GOOGLE_API_KEY="YOUR_KEY_HERE"
 
 ``` 
 root@thinkpad:~/ask$ cat * | ask -o "What is this github repo about?"
-This GitHub repository is for ask, a simple command-line interface (CLI) wrapper for the Google Gemini AI. It allows 
-users to interact with the Gemini model directly from their terminal, providing options to include the output of     
-previous commands as context (-o) and to request suggestions for shell commands related to their query (-s). 
+This GitHub repository is for ask, a simple command-line interface (CLI) wrapper for the Google Gemini AI. It allows users to interact with the Gemini model directly from their terminal, providing options to include the output of previous commands as context (-o) and to request suggestions for shell commands related to their query (-s). 
