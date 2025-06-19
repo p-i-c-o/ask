@@ -2,9 +2,30 @@
 
 import sys
 import os
+import pathlib
+import mimetypes
 from google import genai
+from google.genai import types
 from rich.console import Console
 from rich.markdown import Markdown
+
+# Allowed MIME types
+ALLOWED_MIME_TYPES = {
+    "application/pdf",
+    "application/x-javascript",
+    "application/javascript",
+    "text/javascript",
+    "application/x-python",
+    "text/x-python",
+    "text/plain",
+    "text/html",
+    "text/css",
+    "text/md",
+    "text/markdown",
+    "text/csv",
+    "text/xml",
+    "text/rtf",
+}
 
 # Load API key from environment variable
 api_key = os.getenv("GOOGLE_API_KEY")
@@ -16,6 +37,7 @@ client = genai.Client(api_key=api_key)
 args = sys.argv[1:]
 use_prev_output = False
 suggest_cmds = False
+input_file = None
 
 if "-o" in args:
     use_prev_output = True
@@ -25,6 +47,14 @@ if "-s" in args:
     suggest_cmds = True
     args.remove("-s")
 
+if "-i" in args:
+    idx = args.index("-i")
+    try:
+        input_file = args[idx + 1]
+    except IndexError:
+        raise ValueError("No file specified after -i")
+    del args[idx:idx + 2]
+
 question = " ".join(args)
 
 previous_output = ""
@@ -33,16 +63,46 @@ if use_prev_output:
 
 base = "You are an AI being accessed from a terminal, you will never receive anything other than text. Answer accordingly. You may be given more information than questions, but prioritise answering the question USING the information you're provided with."
 
+contents = []
+
+# Handle input file if provided
+if input_file:
+    filepath = pathlib.Path(input_file)
+    if not filepath.exists():
+        raise FileNotFoundError(f"Input file '{input_file}' not found")
+
+    mime_type, _ = mimetypes.guess_type(str(filepath))
+
+    if not mime_type:
+        print(f"[WARN] Could not detect MIME type for '{input_file}'. Please check the file extension.")
+        sys.exit(1)
+
+    if mime_type not in ALLOWED_MIME_TYPES:
+        allowed = ", ".join(sorted(ALLOWED_MIME_TYPES))
+        print(f"File type '{mime_type}' is not supported.\nAllowed types: {allowed}")
+        sys.exit(1)
+
+    contents.append(
+        types.Part.from_bytes(
+            data=filepath.read_bytes(),
+            mime_type=mime_type,
+        )
+    )
+
+# Build prompt
 if previous_output:
     prompt = f"{base}\nThis was the output of the previous command:\n{previous_output}\n\nReply in short form, but provide good detail: {question}"
     if suggest_cmds:
-        prompt += "\nAlso, suggest one or two shell commands that might help me troubleshoot, fix this issue, or provide more context to the question I asked now. Seperate suggested commands using a newline so that I can tell them apart."
+        prompt += "\nAlso, suggest one or two shell commands that might help me troubleshoot, fix this issue, or provide more context to the question I asked now. Separate suggested commands using a newline so that I can tell them apart."
 else:
     prompt = f"{base}\nReply in short form: {question}"
 
+contents.append(prompt)
+
+# Generate response
 response = client.models.generate_content(
     model="gemini-2.5-flash",
-    contents=prompt
+    contents=contents
 )
 
 console = Console()

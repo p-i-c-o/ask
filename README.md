@@ -27,6 +27,9 @@ export GOOGLE_API_KEY="YOUR_KEY_HERE"
 
 `-s`: Ask the program to suggest commands that could help with your endeavour.
 
+`-i <file>`: Input a file for the AI to analyse.\
+Supported files: `PDF` `JavaScript` `Python` `TXT` `HTML` `CSS` `Markdown` `CSV` `XML` `RTF`
+
 ## Example
 
 ### Explaining stuff
@@ -54,4 +57,12 @@ Fixes:
  4 Reload Nginx: sudo systemctl reload nginx.
 
 Suggested commands: cat -n /etc/nginx/sites-enabled/local sudo nginx -t 
+```
+
+### File Analysis
+
+`root@thinkpad:~$ ask -i README.md "What is the ASK program?"`
+```
+ask is a simple command-line interface (CLI) wrapper for Google Gemini AI, allowing terminal interaction, command output piping, file
+input, and command suggestions.
 ```
