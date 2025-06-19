@@ -44,14 +44,14 @@ shell commands related to their query (-s).
 `root@thinkpad:~$ sudo nginx -t 2>&1 | ask -o -s "Why am I getting an error? Any suggested fixes?"`
 ```
 Error: Typo in Nginx configuration. serv_name is an unknown directive; it should be server_name.
-The error is in /etc/nginx/sites-enabled/local on line 3.                                                 
+The error is in /etc/nginx/sites-enabled/local on line 3.
 
-Fixes:  
+Fixes:
 
  1 Edit /etc/nginx/sites-enabled/local.
  2 Change serv_name to server_name on line 3.
  3 Test Nginx config: sudo nginx -t.
- 4 Reload Nginx: sudo systemctl reload nginx.  
+ 4 Reload Nginx: sudo systemctl reload nginx.
 
 Suggested commands: cat -n /etc/nginx/sites-enabled/local sudo nginx -t 
 ```
