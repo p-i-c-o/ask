@@ -30,7 +30,7 @@ export GOOGLE_API_KEY="YOUR_KEY_HERE"
 `-i <file>`: Input a file for the AI to analyse.\
 Supported files: `PDF` `JavaScript` `Python` `TXT` `HTML` `CSS` `Markdown` `CSV` `XML` `RTF`
 
-## Example
+## Examples
 
 ### Explaining stuff
 `root@thinkpad:~/ask$ cat * | ask -o "What is this github repo about?"`
