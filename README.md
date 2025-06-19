@@ -35,9 +35,12 @@ Supported files: `PDF` `JavaScript` `Python` `TXT` `HTML` `CSS` `Markdown` `CSV`
 ### Explaining stuff
 `root@thinkpad:~/ask$ cat * | ask -o "What is this github repo about?"`
 ```
-This GitHub repository contains the source code for ask, a simple command-line interface (CLI) wrapper for the Google Gemini AI. It  
-enables users to interact with the Gemini model directly from their terminal, supporting features like piping output from previous   
-commands (-o), requesting suggested shell commands (-s), and providing file input for analysis (-i).
+This GitHub repository contains the source code for ask, a simple
+command-line interface (CLI) wrapper for the Google Gemini AI. It
+enables users to interact with the Gemini model directly from their
+terminal, supporting features like piping output from previous   
+commands (-o), requesting suggested shell commands (-s), and
+providing file input for analysis (-i).
 ```
 
 ### Fixing stuff
@@ -61,6 +64,7 @@ Suggested commands: cat -n /etc/nginx/sites-enabled/local sudo nginx -t
 
 `root@thinkpad:~$ ask -i README.md "What is the ASK program?"`
 ```
-ask is a simple command-line interface (CLI) wrapper for Google Gemini AI, allowing terminal interaction, command output piping, file
-input, and command suggestions.
+ask is a simple command-line interface (CLI) wrapper for
+Google Gemini AI, allowing terminal interaction, command
+output piping, file input, and command suggestions.
 ```
